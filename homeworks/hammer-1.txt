@@ -1,0 +1,47 @@
+***** Linked List *****
+Arastirilacak konular:
+- Rust ta input alma.
+-Linked list data structure.
+
+Proje:
+- Linked list data type incelenecek.
+- Linked list rust ile implement edilecek.
+Bulunacak islevler:
+- Traverse. Linked listteki elemanlar tek tek gezilecek ve icerigi 
+console a yazdirilacak.
+- Add. Linked liste yeni eleman eklemek icin.
+- Delete. Linked litten yeni eleman silmek icin.
+- Search. Linked listteki verilen bir node u bulacak.
+- Sort. Linked listin icerigini siralayacak.
+
+Kullanilacak struct:
+-Linked listte City struct i tutulacak data olarak.
+
+struct City {
+    name: String,
+    state: String,
+    population: i64,
+    user_number: i64
+}
+
+- Yukaridaki linked liste ait ozelliklerin yaninda
+user_number kismini guncelleyecek bir fonksiyon da eklenmeli.
+- Bu fonksiyon belirtilen sehirdeki user_number i guncelleyecek.
+
+- Check_Add(name: String) fonksiyonu eklenecek. 
+Bu fonksiyon eger o sehir zaten linked listte varsa yenisini 
+listeye eklemeyecek.
+
+- Bunlarin kolay denenmesi icin bir kullanici menusu olusturulacak
+ve bu menuden girilen sayilara gore islemler yapilacak.
+- Ornegin:
+1- Liste yaratin
+2- Listeye sehir ekleyin
+3- Listeye guvenle sehir ekleyin
+4- Listeden verilen isimli sehirleri cikarin
+5- Listedeki son sehri cikarin
+6- Listeyi yazdirin
+7- Sehrin populasyonunu guncelleyin
+8- Sehirleri kullanici sayisina gore listeleyin
+9- Sehrin bilgilerini yazdir
+10- Exit
