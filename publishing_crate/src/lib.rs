@@ -65,3 +65,18 @@ pub mod utils {
 }
 
 //Api token : cio444SwPnOsxv9SKygnD9IJFgKuY5YDMrb
+//Publishing
+//Kodumuzu publish lemek icin oncelikle crates.io sitesine giris yapiyoruz (github account la).
+//Orada profil bolumunden token aliyoruz.
+//Aldigimiz tokenle giris yapiyoruz.
+//cargo login <token>
+//Sonra cargo.toml dosyamiza description ve license ekliyoruz.
+//$ cargo publish --dry-run bize publishte olabilecek warning leri ve hatalari gosteriyor
+//version control ignore lari icin -> $ cargo package --list
+//en son $ cargo publish komutu ile kodumuzu publishleyebiliyoruz.
+
+//Eger ki belli bir versiyon disinda bir versiyon kullanilmasini istiyorsak 
+//cargo yank --vers <version-number>
+//Yukaridaki komut ile indirenlerin kullanmaya devam edecegi ama ilk defa indirenlerin bu versiyonu indiremeyecegi bir sistem sagliyoruz.
+//Yukaridaki eyleminizi undo yapmak icin
+//cargo yank --vers <version-number> --undo
