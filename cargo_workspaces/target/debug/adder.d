@@ -1,0 +1,1 @@
+C:\Users\arday\OneDrive\Masaüstü\rust-lessons\cargo_workspaces\target\debug\adder.exe: C:\Users\arday\OneDrive\Masaüstü\rust-lessons\cargo_workspaces\add-one\src\lib.rs C:\Users\arday\OneDrive\Masaüstü\rust-lessons\cargo_workspaces\adder\src\main.rs
