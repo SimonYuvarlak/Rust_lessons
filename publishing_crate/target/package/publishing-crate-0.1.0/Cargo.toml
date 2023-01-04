@@ -13,6 +13,8 @@
 edition = "2021"
 name = "publishing-crate"
 version = "0.1.0"
+authors = ["Simon Arda Yuvarlak"]
+description = "A library for to test publishing crates"
 
 [profile.dev]
 opt-level = 0
