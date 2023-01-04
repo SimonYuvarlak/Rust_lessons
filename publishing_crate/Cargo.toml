@@ -1,0 +1,19 @@
+[package]
+name = "publishing-crate"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+
+#Asagida iki ayri profil icin konfigurasyon var.
+#Birincisi dev profili icin optimizasyon level i.
+#Optimizasyon ne kadar cok olursa kod o kadar iyi ve hizli calisir ama compile etmesi de zaman alir.
+#O yuzden development surecindeyken optimizasyon dusurmek daha mantikliyken end product icin tam tersi gecerli oluyor.
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+opt-level = 3

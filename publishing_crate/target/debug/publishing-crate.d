@@ -1,0 +1,1 @@
+C:\Users\arday\OneDrive\Masaüstü\rust-lessons\publishing_crate\target\debug\publishing-crate.exe: C:\Users\arday\OneDrive\Masaüstü\rust-lessons\publishing_crate\src\lib.rs C:\Users\arday\OneDrive\Masaüstü\rust-lessons\publishing_crate\src\main.rs

@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"publishing_crate":[["impl Freeze for <a class=\"enum\" href=\"publishing_crate/kinds/enum.PrimaryColor.html\" title=\"enum publishing_crate::kinds::PrimaryColor\">PrimaryColor</a>",1,["publishing_crate::kinds::PrimaryColor"]],["impl Freeze for <a class=\"enum\" href=\"publishing_crate/kinds/enum.SecondaryColor.html\" title=\"enum publishing_crate::kinds::SecondaryColor\">SecondaryColor</a>",1,["publishing_crate::kinds::SecondaryColor"]]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

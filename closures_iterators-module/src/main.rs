@@ -71,7 +71,7 @@ fn main() {
     // };
 
     //Fonksiyonlar ve closure tanimlamalari karsilastirmasi
-    // fn  add_one_v1   (x: u32) -> u32 { x + 1 }
+    // fn  add_one_v1   (x: u32) -> u32 { x + 1 };
     // let add_one_v2 = |x: u32| -> u32 { x + 1 };
     // let add_one_v3 = |x| { x + 1 };
     // let add_one_v4 = |x| x + 1  ;
@@ -102,9 +102,8 @@ fn main() {
     //Mutable olarak alma ornegi
     // let mut list = vec![1, 2, 3];
     // println!("Before defining closure: {:?}", list);
-
     // let mut borrows_mutably = || list.push(7);
-
+   
     // borrows_mutably();
     // println!("After calling closure: {:?}", list);
 
@@ -115,7 +114,6 @@ fn main() {
     // thread::spawn(move || println!("From thread: {:?}", list))
     //     .join()
     //     .unwrap();
-
 
     //***** Iterator ****
     //Iterator lazy dir, yani tek baslarina islevsizdir
@@ -143,6 +141,7 @@ fn main() {
     //Biz iterator in ownership i alip value lari dondurmesini istiyorsak into_iter() kullanabiliriz
     //Mutable reference ile iter etmek istiyorsak iter_mut() kullanilabilir
 
+
     //Iterator adaptorlar iterator u consume etmeyen methodlar
     //Map metodu
     // let v1: Vec<i32> = vec![1, 2, 3];
@@ -156,6 +155,7 @@ fn main() {
     // let v1: Vec<i32> = vec![1, 2, 3];
     // let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
     // assert_eq!(v2, vec![2, 3, 4]);
+    //Yukaridaki islem sonucunda v1 vectoru herhangi bir sekilde etkilenmiyor
 
     //Filter baska bir iterator consume etmeyen ornek
     //filter() i kullanarak iteratordan sadece istedigimiz kriterlere uyanlari alabiliriz
@@ -189,6 +189,8 @@ fn main() {
     //             },
     //         ]
     //     );
+
+    //     println!("{:?}", in_my_size);
 
     //Not: iterator ve closure lar kullandigimizda herhangi bir performans kaybi yasamayiz.
 }
