@@ -10,53 +10,53 @@ fn main() {
 
     // Thread ler thread::spawn() ile yaratiliyor ve spawn icine bir closure aliyor.
     // O closure in icindeki kod yeni bir thread de calismis oluyor.
-    thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
+    // thread::spawn(|| {
+    //     for i in 1..10 {
+    //         println!("thread number {} from the spawned thread!", i);
+    //         thread::sleep(Duration::from_millis(1));
+    //     }
+    // });
 
-    for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
+    // for i in 1..5 {
+    //     println!("main number {} from the main thread!", i);
+    //     thread::sleep(Duration::from_millis(1));
+    // }
 
     // Isletim sisteminiz core allocation ina gore her seferinde verdigi sonuc farkli olacaktir yukaridaki ornegin.
 
     // Yukaridaki ornekte bizim thread imizin isi yarida kesildi cunku main once bitti.
     // Main isini bitirince butun calisan thread ler de durduruluyor.
-    // Bununla ilgili coum olarak asagidaki yol izlenebilir.
-    let handle = thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
+    // Bununla ilgili cozum olarak asagidaki yol izlenebilir.
+    // let handle = thread::spawn(|| {
+    //     for i in 1..10 {
+    //         // println!("hi number {} from the spawned thread!", i);
+    //         thread::sleep(Duration::from_millis(1));
+    //     }
+    // });
 
-    for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
+    // for i in 1..5 {
+    //     // println!("hi number {} from the main thread!", i);
+    //     thread::sleep(Duration::from_millis(1));
+    // }
 
-    handle.join().unwrap(); // Bu satir bizim thread imizi bitiriyor.
+    // handle.join().unwrap(); // Bu satir bizim thread imizi bitiriyor.
     // Eger biz yukaridaki satirin yerini main deki for dan once olacak hale getirirsek once thread butun isini bitirir sonra main calisir.
-    let handle = thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
+    // let handle = thread::spawn(|| {
+    //     for i in 1..10 {
+    //         println!("hi number {} from the spawned thread!", i);
+    //         thread::sleep(Duration::from_millis(1));
+    //     }
+    // });
 
-    handle.join().unwrap();
+    // handle.join().unwrap();
 
-    for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
+    // for i in 1..5 {
+    //     println!("hi number {} from the main thread!", i);
+    //     thread::sleep(Duration::from_millis(1));
+    // }
 
     // Move Closure ve Thread
-    let v = vec![1, 2, 3];
+    // let v = vec![1, 2, 3];
 
     // let handle = thread::spawn(|| {
     //     println!("Here's a vector: {:?}", v);
@@ -66,13 +66,13 @@ fn main() {
     // Yukaridaki kod hata verecektir cunku v closure a referans olarak veriliyor ama thread kendi is yaptigi surece
     // o aldigi referansin valid olup olmadigini bilmedigi surece islem yapmak istemez.
     // Bu durum icin biz move kelimesi ile v nin ownership ini verebiliriz thread e.
-    let v = vec![1, 2, 3];
+    // let v = vec![1, 2, 3];
 
-    let handle = thread::spawn(move || {
-        println!("Here's a vector: {:?}", v);
-    });
+    // let handle = thread::spawn(move || {
+    //     println!("Here's a vector: {:?}", v);
+    // });
 
-    handle.join().unwrap();
+    // handle.join().unwrap();
 
     // Threadler ve Mesajlar -----
     // Kanal acma
@@ -82,27 +82,27 @@ fn main() {
 
     // -----
 
-    let (tx, rx) = mpsc::channel();
+    // let (tx, rx) = mpsc::channel();
 
-    thread::spawn(move || {
-        let val = String::from("hi");
-        tx.send(val).unwrap();
-    });
+    // thread::spawn(move || {
+    //     let val = String::from("hi");
+    //     tx.send(val).unwrap();
+    // });
     // Yukarida kanal acip, thread imizin icinde kanalimizdan val degerini gonderdik.
     // Bunun icin send metodunu kullandik.
     // Send metodu bir Result donduruyor.
 
     // Gonderdigimiz degerleri asagidaki sekilde receive edebiliriz.
     // Asagidaki receiver thread, main thread.
-    let (tx, rx) = mpsc::channel();
+    // let (tx, rx) = mpsc::channel();
 
-    thread::spawn(move || {
-        let val = String::from("hi");
-        tx.send(val).unwrap();
-    });
+    // thread::spawn(move || {
+    //     let val = String::from("hi");
+    //     tx.send(val).unwrap(); // Nehire biraktin
+    // });
 
-    let received = rx.recv().unwrap();
-    println!("Got: {}", received);
+    // let received = rx.recv().unwrap(); // Nehirde aldin
+    // println!("Got: {}", received);
 
     // Asagidaki kod hata verecek.
     // Cunku biz thread imizin icindeki val degerini kanala yolladiktan sonra yazdirmaya calisiyoruz.
@@ -122,27 +122,27 @@ fn main() {
     // Asagidaki ornekte thread degerleri tek tek send ediyor.
     // Main thread te biz rx i iterator gibi kullandik.
     // Main degerler geldikce yazdirdi.
-    let (tx, rx) = mpsc::channel();
+    // let (tx, rx) = mpsc::channel();
 
-    thread::spawn(move || {
-        let vals = vec![
-            String::from("hi"),
-            String::from("from"),
-            String::from("the"),
-            String::from("thread"),
-        ];
+    // thread::spawn(move || {
+    //     let vals = vec![
+    //         String::from("hi"),
+    //         String::from("from"),
+    //         String::from("the"),
+    //         String::from("thread"),
+    //     ];
 
-        for val in vals {
-            tx.send(val).unwrap();
-            thread::sleep(Duration::from_secs(1));
-        }
-    });
+    //     for val in vals {
+    //         tx.send(val).unwrap();
+    //         thread::sleep(Duration::from_secs(1));
+    //     }
+    // });
 
-    for received in rx {
-        println!("Got: {}", received);
-    }
+    // for received in rx {
+    //     println!("Got: {}", received);
+    // }
 
-    // Ayni anda bircok send yapmak isteseydik bircok thread den:
+    // // Ayni anda bircok send yapmak isteseydik bircok thread den:
     let (tx, rx) = mpsc::channel();
 
     let tx1 = tx.clone();

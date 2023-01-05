@@ -34,6 +34,7 @@ fn main() {
     // Implicit Deref Coercion
     let m = MyBox::new(String::from("Rust"));
     hello(&m);
+
     // Gecerli oldugu durumlar
     // From &T to &U when T: Deref<Target=U>
     // From &mut T to &mut U when T: DerefMut<Target=U>
@@ -42,21 +43,21 @@ fn main() {
     // Drop Trait ----
     // Yaratilan smart pointerlar scope larinin sonuna geldiklerinde cagiriliyor bu metod.
     // Burada kaynaklari bosaltabilir veya istediginiz farkli bir islemi yapabilirsiniz.
-    let c = CustomSmartPointer {
-        data: String::from("my stuff"),
-    };
-    let d = CustomSmartPointer {
-        data: String::from("other stuff"),
-    };
-    println!("CustomSmartPointers created.");
+    // let c = CustomSmartPointer {
+    //     data: String::from("my stuff"),
+    // };
+    // let d = CustomSmartPointer {
+    //     data: String::from("other stuff"),
+    // };
+    // println!("CustomSmartPointers created.");
 
     // Biz bir degeri scope undan once birakmak istersek hata aliriz.
-    let c = CustomSmartPointer {
-        data: String::from("some data"),
-    };
-    println!("CustomSmartPointer created.");
+    // let c = CustomSmartPointer {
+    //     data: String::from("some data"),
+    // };
+    // println!("CustomSmartPointer created.");
     // c.drop();
-    println!("CustomSmartPointer dropped before the end of main.");
+    // println!("CustomSmartPointer dropped before the end of main.");
     // Yukaridaki kullanim yerine bizim icin standard kutuphanede yaratilmis bir fonksiyon kullanabiliriz.
 
     let c = CustomSmartPointer {
@@ -90,7 +91,7 @@ impl<T> MyBox<T> {
 impl<T> Deref for MyBox<T> {
     type Target = T;
 
-    fn deref(&self) -> &Self::Target {
+    fn deref(&self) -> &T {
         &self.0
     }
 }
