@@ -65,6 +65,22 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
 </pre><pre class="rust"><code><span class="comment">//Iki farkli cargo build versiyonu var. Biri dev biri release.
 //Dev development icin daha iyi konfigusrasyonlarla gelirken release end product compilation i icin daha iyi konfigurasyonlarla geliyor
 //$ cargo build --release
@@ -107,7 +123,8 @@
 <span class="kw">pub use </span><span class="self">self</span>::utils::mix;
 
 <span class="kw">pub mod </span>kinds {
-    <span class="kw">pub enum </span>PrimaryColor {
+    <span class="attribute">#[derive(Debug)]
+    </span><span class="kw">pub enum </span>PrimaryColor {
         Red,
         Yellow,
         Blue,
@@ -131,5 +148,20 @@
     }
 }
 
-<span class="comment">//Api token : cio444SwPnOsxv9SKygnD9IJFgKuY5YDMrb</span></code></pre></div>
+<span class="comment">//Api token : cio444SwPnOsxv9SKygnD9IJFgKuY5YDMrb
+//Publishing
+//Kodumuzu publish lemek icin oncelikle crates.io sitesine giris yapiyoruz (github account la).
+//Orada profil bolumunden token aliyoruz.
+//Aldigimiz tokenle giris yapiyoruz.
+//cargo login &lt;token&gt;
+//Sonra cargo.toml dosyamiza description ve license ekliyoruz.
+//$ cargo publish --dry-run bize publishte olabilecek warning leri ve hatalari gosteriyor
+//version control ignore lari icin -&gt; $ cargo package --list
+//en son $ cargo publish komutu ile kodumuzu publishleyebiliyoruz.
+
+//Eger ki belli bir versiyon disinda bir versiyon kullanilmasini istiyorsak 
+//cargo yank --vers &lt;version-number&gt;
+//Yukaridaki komut ile indirenlerin kullanmaya devam edecegi ama ilk defa indirenlerin bu versiyonu indiremeyecegi bir sistem sagliyoruz.
+//Yukaridaki eyleminizi undo yapmak icin
+//cargo yank --vers &lt;version-number&gt; --undo</span></code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="publishing_crate" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

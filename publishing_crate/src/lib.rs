@@ -40,6 +40,7 @@ pub use self::kinds::SecondaryColor;
 pub use self::utils::mix;
 
 pub mod kinds {
+    #[derive(Debug)]
     pub enum PrimaryColor {
         Red,
         Yellow,
@@ -64,7 +65,7 @@ pub mod utils {
     }
 }
 
-//Api token : cio444SwPnOsxv9SKygnD9IJFgKuY5YDMrb
+//Api token : 
 //Publishing
 //Kodumuzu publish lemek icin oncelikle crates.io sitesine giris yapiyoruz (github account la).
 //Orada profil bolumunden token aliyoruz.

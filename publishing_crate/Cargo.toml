@@ -3,6 +3,7 @@ name = "publishing-crate"
 version = "0.1.0"
 edition = "2021"
 authors = ["Simon Arda Yuvarlak"]
+# Asagidaki iki alan da publishing icin mecbur.
 description = "A library for to test publishing crates"
 license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
