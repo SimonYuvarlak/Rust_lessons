@@ -1,0 +1,1 @@
+C:\Users\arday\OneDrive\Masaüstü\rust-lessons\oop_rust\target\debug\oop_rust.exe: C:\Users\arday\OneDrive\Masaüstü\rust-lessons\oop_rust\src\lib.rs C:\Users\arday\OneDrive\Masaüstü\rust-lessons\oop_rust\src\main.rs
