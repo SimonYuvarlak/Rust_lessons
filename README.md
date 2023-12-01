@@ -33,8 +33,6 @@ git clone https://github.com/SimonYuvarlak/Rust_lessons.git
 
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 
-Sure, here's a sample FAQ section that you could include in a `README.md` file for a Rust tutorial repository:
-
 ---
 
 ## Frequently Asked Questions (FAQ)
