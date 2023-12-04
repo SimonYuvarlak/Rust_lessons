@@ -1,4 +1,0 @@
-- Bu odevde onceki kod dosyalarindaki fonksiyonlari
-modullere bolecegiz. 
-- Main de olan butun finksiyonlar kendi modullerine
-ayrilacak ve o fonksiyonlar, o modullerden cagirilacak mainde.
