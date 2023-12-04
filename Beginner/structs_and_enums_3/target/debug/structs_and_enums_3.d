@@ -1,0 +1,1 @@
+/Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Beginner/structs_and_enums_3/target/debug/structs_and_enums_3: /Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Beginner/structs_and_enums_3/src/main.rs

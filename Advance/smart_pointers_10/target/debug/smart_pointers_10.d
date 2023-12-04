@@ -1,0 +1,1 @@
+/Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/smart_pointers_10/target/debug/smart_pointers_10: /Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/smart_pointers_10/src/main.rs

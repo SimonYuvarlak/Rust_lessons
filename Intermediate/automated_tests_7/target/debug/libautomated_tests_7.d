@@ -1,0 +1,1 @@
+/Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Intermediate/automated_tests_7/target/debug/libautomated_tests_7.rlib: /Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Intermediate/automated_tests_7/src/lib.rs

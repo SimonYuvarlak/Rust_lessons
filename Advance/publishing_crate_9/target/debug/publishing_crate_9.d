@@ -1,0 +1,1 @@
+/Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/publishing_crate_9/target/debug/publishing_crate_9: /Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/publishing_crate_9/src/lib.rs /Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/publishing_crate_9/src/main.rs

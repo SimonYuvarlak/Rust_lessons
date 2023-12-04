@@ -1,0 +1,1 @@
+/Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/oop_rust_12/target/debug/oop_rust_12: /Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/oop_rust_12/src/lib.rs /Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/oop_rust_12/src/main.rs

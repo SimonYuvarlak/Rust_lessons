@@ -1,0 +1,1 @@
+/Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Beginner/introduction_to_rust_programming_1/target/debug/introduction_to_rust_programming_1: /Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Beginner/introduction_to_rust_programming_1/src/main.rs
