@@ -45,7 +45,28 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 **A2**: The list of the topics covered in the tutorial:
 
-- Do this section after you number the sections
+**_Beginner_**
+
+- Introduction to Rust Programming
+- Control Flow, Ownership and References
+- Structs and Enums
+- Collections and Modules
+
+**_Intermediate_**
+
+- Error Handling
+- Generics
+- Automated Tests
+- Closures and Iterators
+
+**_Advance_**
+
+- Publishing Crate
+- Smart Pointers
+- Concurrency
+- Object Oriented Programming in Rust
+- Pattern Matching
+- Advanced Features
 
 ### Q3: Do I need any prior knowledge of Rust to start?
 
