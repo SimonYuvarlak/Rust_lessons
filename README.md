@@ -1,4 +1,5 @@
 ﻿# Rust_lessons
+ `telegram group:` `link: https://t.me/+7xR7jaQmbrRkMzM0`
 
 This repository designed as a Rust programming language tutorial.
 You can find out how to use this tutorial and what topics does it cover in this README.md file.
