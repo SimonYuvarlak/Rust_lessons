@@ -1,0 +1,10 @@
+{
+    "rust-analyzer.linkedProjects": [
+        ".\\Advance\\publishing_crate_9\\Cargo.toml",
+        ".\\Advance\\smart_pointers_10\\Cargo.toml",
+        ".\\Advance\\concurrency_11\\Cargo.toml",
+        ".\\Advance\\oop_rust_12\\Cargo.toml",
+        ".\\Advance\\pattern_matching_13\\Cargo.toml",
+        ".\\Advance\\pattern_matching_13\\Cargo.toml"
+    ]
+}

@@ -1,1 +1,1 @@
-/Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/publishing_crate_9/target/debug/libpublishing_crate_9.rlib: /Users/ardayuvarlak/Desktop/layer1/rust/lessons_2024/Rust_lessons/Advance/publishing_crate_9/src/lib.rs
+C:\Users\arday\OneDrive\Masaüstü\teaching\Rust_lessons\Advance\publishing_crate_9\target\debug\libpublishing_crate_9.rlib: C:\Users\arday\OneDrive\Masaüstü\teaching\Rust_lessons\Advance\publishing_crate_9\src\lib.rs

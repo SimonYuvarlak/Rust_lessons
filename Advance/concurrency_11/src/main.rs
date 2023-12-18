@@ -1,15 +1,15 @@
+use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
-use std::sync::mpsc;
 
 fn main() {
     // Threads -----
-    // Thread ler programlarin ayni anda bigisayarin farkli islemci core larini kullanabilmesine yariyor.
-    // Boylelikle kodunuz tek tek is yapmak yerine, elindeki bircok isi paralel bir sekilde yapabiliyor.
-    // Thread kullanimi Race conditions ve deadlock gibi sorunlar yaratabilir.
+    // Threads allow programs to use different processor cores of the computer simultaneously.
+    // This enables your code to perform multiple tasks in parallel instead of sequentially.
+    // Thread usage can lead to issues like race conditions and deadlocks.
 
-    // Thread ler thread::spawn() ile yaratiliyor ve spawn icine bir closure aliyor.
-    // O closure in icindeki kod yeni bir thread de calismis oluyor.
+    // Threads are created using thread::spawn() and it takes a closure.
+    // The code inside that closure runs on a new thread.
     // thread::spawn(|| {
     //     for i in 1..10 {
     //         println!("thread number {} from the spawned thread!", i);
@@ -22,11 +22,11 @@ fn main() {
     //     thread::sleep(Duration::from_millis(1));
     // }
 
-    // Isletim sisteminiz core allocation ina gore her seferinde verdigi sonuc farkli olacaktir yukaridaki ornegin.
+    // The result you get each time may vary depending on how your operating system allocates cores.
 
-    // Yukaridaki ornekte bizim thread imizin isi yarida kesildi cunku main once bitti.
-    // Main isini bitirince butun calisan thread ler de durduruluyor.
-    // Bununla ilgili cozum olarak asagidaki yol izlenebilir.
+    // In the above example, our thread's work was cut off because the main finished first.
+    // When the main finishes, all running threads are also stopped.
+    // As a solution, you can follow the approach below.
     // let handle = thread::spawn(|| {
     //     for i in 1..10 {
     //         // println!("hi number {} from the spawned thread!", i);
@@ -39,8 +39,8 @@ fn main() {
     //     thread::sleep(Duration::from_millis(1));
     // }
 
-    // handle.join().unwrap(); // Bu satir bizim thread imizi bitiriyor.
-    // Eger biz yukaridaki satirin yerini main deki for dan once olacak hale getirirsek once thread butun isini bitirir sonra main calisir.
+    // handle.join().unwrap(); // This line terminates our thread.
+    // If we place the above line before the for loop in main, the thread finishes all its work first, then main runs.
     // let handle = thread::spawn(|| {
     //     for i in 1..10 {
     //         println!("hi number {} from the spawned thread!", i);
@@ -55,7 +55,7 @@ fn main() {
     //     thread::sleep(Duration::from_millis(1));
     // }
 
-    // Move Closure ve Thread
+    // Move Closure and Thread
     // let v = vec![1, 2, 3];
 
     // let handle = thread::spawn(|| {
@@ -63,9 +63,9 @@ fn main() {
     // });
 
     // handle.join().unwrap();
-    // Yukaridaki kod hata verecektir cunku v closure a referans olarak veriliyor ama thread kendi is yaptigi surece
-    // o aldigi referansin valid olup olmadigini bilmedigi surece islem yapmak istemez.
-    // Bu durum icin biz move kelimesi ile v nin ownership ini verebiliriz thread e.
+    // The above code will throw an error because `v` is referenced in the closure, but the thread, while working,
+    // does not want to operate on a reference whose validity it can't be sure of.
+    // In this case, we can use the `move` keyword to give the ownership of `v` to the thread.
     // let v = vec![1, 2, 3];
 
     // let handle = thread::spawn(move || {
@@ -74,11 +74,11 @@ fn main() {
 
     // handle.join().unwrap();
 
-    // Threadler ve Mesajlar -----
-    // Kanal acma
+    // Threads and Messages -----
+    // Opening a channel
     // let (tx, rx) = mpsc::channel();
-    // Tx mesaji yollayan kisim, rx ise alan kisim.
-    // channel() fojnksiyonundan donen degerleri tuple seklinde yakaladik.
+    // Tx is the sending part, rx is the receiving part.
+    // We captured the values returned from the channel() function as a tuple.
 
     // -----
 
@@ -88,25 +88,25 @@ fn main() {
     //     let val = String::from("hi");
     //     tx.send(val).unwrap();
     // });
-    // Yukarida kanal acip, thread imizin icinde kanalimizdan val degerini gonderdik.
-    // Bunun icin send metodunu kullandik.
-    // Send metodu bir Result donduruyor.
+    // Above, we opened a channel and in our thread, we sent the `val` value through our channel.
+    // We used the send method for this.
+    // The send method returns a Result.
 
-    // Gonderdigimiz degerleri asagidaki sekilde receive edebiliriz.
-    // Asagidaki receiver thread, main thread.
+    // We can receive the values we sent as follows.
+    // The receiver below is the main thread.
     // let (tx, rx) = mpsc::channel();
 
     // thread::spawn(move || {
     //     let val = String::from("hi");
-    //     tx.send(val).unwrap(); // Nehire biraktin
+    //     tx.send(val).unwrap(); // Dropped it in the river
     // });
 
-    // let received = rx.recv().unwrap(); // Nehirde aldin
+    // let received = rx.recv().unwrap(); // Picked it up from the river
     // println!("Got: {}", received);
 
-    // Asagidaki kod hata verecek.
-    // Cunku biz thread imizin icindeki val degerini kanala yolladiktan sonra yazdirmaya calisiyoruz.
-    // Rust buna izin vermiyor. Cunku val degeri yollandigi kanalda droplanabilir veya bir sorun yasayabiliriz.
+    // The following code will throw an error.
+    // Because we're trying to print the value `val` inside our thread after sending it through the channel.
+    // Rust doesn't allow this because the value `val` might be dropped or we might encounter an issue in the channel.
     // let (tx, rx) = mpsc::channel();
 
     // thread::spawn(move || {
@@ -117,11 +117,10 @@ fn main() {
 
     // let received = rx.recv().unwrap();
     // println!("Got: {}", received);
-    
 
-    // Asagidaki ornekte thread degerleri tek tek send ediyor.
-    // Main thread te biz rx i iterator gibi kullandik.
-    // Main degerler geldikce yazdirdi.
+    // In the following example, the thread sends values one by one.
+    // In the main thread, we used rx like an iterator.
+    // Main printed the values as they arrived.
     // let (tx, rx) = mpsc::channel();
 
     // thread::spawn(move || {
@@ -142,7 +141,7 @@ fn main() {
     //     println!("Got: {}", received);
     // }
 
-    // // Ayni anda bircok send yapmak isteseydik bircok thread den:
+    // // If we wanted to send many messages simultaneously from multiple threads:
     let (tx, rx) = mpsc::channel();
 
     let tx1 = tx.clone();

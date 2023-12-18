@@ -1,12 +1,12 @@
-// Diger OOP dillerde olan class mantiginin Rust taki implementasyon ornegi
-// Class gbi struct imizi tanimliyoruz ama icinde sadece field lar var
+// Example of Rust's implementation of class concept in other OOP languages
+// We define our struct like a class, but it only has fields inside
 pub struct AveragedCollection {
     list: Vec<i32>,
     average: f64,
 }
 
-// Normal OOP konseptinde bir class icinde bulunur field lar da fonksiyonlar da 
-// Burada ise field lar struct la ayrilmisken, fonksiyonlar impl ile ayriliyor
+// In normal OOP concepts, a class contains both fields and functions
+// Here, fields are separated with struct, and functions with impl
 impl AveragedCollection {
     pub fn add(&mut self, value: i32) {
         self.list.push(value);
@@ -62,4 +62,3 @@ impl Draw for Button {
         // code to actually draw a button
     }
 }
-

@@ -1,13 +1,13 @@
 fn main() {
-    // Match hatirlatmasi
+    // Reminder about 'match'
     let x = Option::Some(5);
     match x {
         Some(x) => println!("{x}"),
         None => println!("None"),
     }
 
-    // Match yerine if let de kullanabiliriz
-    // Asagida if let ve else case lerinin kombinasyonunu gorebiliriz
+    // We can also use 'if let' instead of 'match'
+    // Below is a combination of 'if let' and 'else' cases
     let favorite_color: Option<&str> = None;
     let is_tuesday = false;
     let age: Result<u8, _> = "34".parse();
@@ -26,39 +26,38 @@ fn main() {
         println!("Using blue as the background color");
     }
 
-    // Yukarinin match den eksigi butun olasiliklari kontrol etmemesi
+    // The drawback of the above method compared to 'match' is not checking all possibilities
 
     // While let
     fn main() {
         let mut stack = Vec::new();
-    
+
         stack.push(1);
         stack.push(2);
         stack.push(3);
-    
+
         while let Some(top) = stack.pop() {
             println!("{}", top);
         }
     }
-    
-    
+
     // For loop
     let v = vec!['a', 'b', 'c'];
-    
+
     for (index, value) in v.iter().enumerate() {
         println!("{} is at index {}", value, index);
     }
 
-    // Aslinda biz let kullanarak surekli pattern kullaniyorduk
+    // Actually, we were constantly using pattern with let
     //let PATTERN = EXPRESSION;
-    let x = 5; // Burada aslinda x pattern ve 5 de expression oluyor ve biz expression sonucunda ne oluyorsa onu x e bagla diyoruz
-    let (x, y, z) = (1, 2, 3); // Burada use biraz daha nasil destruct edilip exression sonucunun patternlara baglandigini gorebiliriz
+    let x = 5; // Here, x is the pattern and 5 is the expression, and we bind the result of expression to x
+    let (x, y, z) = (1, 2, 3); // Here we can see how the result of an expression is destructed and bound to patterns
 
     // Function parameters
     fn foo(x: i32) {
         // code goes here
     }
-    // Yukaridaki fonksiyonda aslinda x: i32 kismi da bir pattern
+    // In the above function, the part 'x: i32' is also a pattern
 
     fn print_coordinates(&(x, y): &(i32, i32)) {
         println!("Current location: ({}, {})", x, y);
@@ -66,11 +65,11 @@ fn main() {
 
     let point = (3, 5);
     print_coordinates(&point);
-    
+
     // Refutability
-    // Function parameters, let statements, ve for loops irrefutable alabilir cunku program bu degerler match etmediginde anlamli bir sey yapamaz
-    // Match de son kol haric irrefutable olmasi lazim
-    // if let ve while let, refutable ve irrefutable kabul ediyor
+    // Function parameters, let statements, and for loops accept irrefutable patterns because the program cannot do anything meaningful when these values do not match
+    // Match arm except the last one must be irrefutable
+    // if let and while let accept both refutable and irrefutable patterns
     // let Some(x) = some_option_value;
     // if let Some(x) = some_option_value {
     //     println!("{}", x);
@@ -79,21 +78,21 @@ fn main() {
     //     println!("{}", x);
     // };
 
-    // Asagidaki kodda match in icindeki y yeni bir variable ve disaridakini shadowluyor
-    // Ikinci arm olan Some(y) calisacak ve buradaki y aslinda x in icindeki olan 5
-    // Match bitince scope u bittigi icin yeni yaratilan y yok oluyor ve print te eski y degeri yaziyor
+    // In the code below, 'y' inside the match is a new variable and shadows the outside one
+    // The second arm 'Some(y)' will execute, and here 'y' is actually the 5 inside 'x'
+    // When the match ends, the scope of the newly created 'y' ends, and the old value of 'y' is printed
     let x = Some(5);
-        let y = 10;
-    
-        match x {
-            Some(50) => println!("Got 50"),
-            Some(y) => println!("Matched, y = {y}"),
-            _ => println!("Default case, x = {:?}", x),
-        }
-    
-        println!("at the end: x = {:?}, y = {y}", x);
+    let y = 10;
 
-    // Match icinde or syntax i kullanabiliriz
+    match x {
+        Some(50) => println!("Got 50"),
+        Some(y) => println!("Matched, y = {y}"),
+        _ => println!("Default case, x = {:?}", x),
+    }
+
+    println!("at the end: x = {:?}, y = {y}", x);
+
+    // We can use 'or' syntax in match
     let x = 1;
 
     match x {
@@ -102,7 +101,7 @@ fn main() {
         _ => println!("anything"),
     }
 
-    // March te ..= kullanimi
+    // Using ..= in match
     let x = 5;
 
     match x {
@@ -118,20 +117,20 @@ fn main() {
         _ => println!("something else"),
     }
 
-    // Value Destruction
+    // Destructuring Values
     struct Point {
         x: i32,
         y: i32,
     }
-    
-    let p = Point { x: 0, y: 7 };
-    
-        let Point { x: a, y: b } = p; //Altta alternatif kisa yazilimi var
-        // let Point { x, y } = p;
-        assert_eq!(0, a);
-        assert_eq!(7, b);
 
-    // Destruction in match le kullanimi
+    let p = Point { x: 0, y: 7 };
+
+    let Point { x: a, y: b } = p; // Below is the shorter alternative
+                                  // let Point { x, y } = p;
+    assert_eq!(0, a);
+    assert_eq!(7, b);
+
+    // Destructuring in match
     let p = Point { x: 0, y: 7 };
 
     match p {
@@ -142,16 +141,16 @@ fn main() {
         }
     }
 
-    // Destructing Enums
+    // Destructuring Enums
     // enum Message {
     //     Quit,
     //     Move { x: i32, y: i32 },
     //     Write(String),
     //     ChangeColor(i32, i32, i32),
     // }
-    
+
     // let msg = Message::ChangeColor(0, 160, 255);
-    
+
     // match msg {
     //     Message::Quit => {
     //         println!("The Quit variant has no data to destructure.");
@@ -169,32 +168,32 @@ fn main() {
     //     ),
     // }
 
-    // Nested tructure destruction
+    // Nested Structure Destructuring
     enum Color {
         Rgb(i32, i32, i32),
         Hsv(i32, i32, i32),
     }
-    
+
     enum Message {
         Quit,
         Move { x: i32, y: i32 },
         Write(String),
         ChangeColor(Color),
     }
-    
+
     let msg = Message::ChangeColor(Color::Hsv(0, 160, 255));
-    
+
     match msg {
         Message::ChangeColor(Color::Rgb(r, g, b)) => {
             println!("Change color to red {r}, green {g}, and blue {b}");
         }
-        Message::ChangeColor(Color::Hsv(h, s, v)) => println!(
-            "Change color to hue {h}, saturation {s}, value {v}"
-        ),
+        Message::ChangeColor(Color::Hsv(h, s, v)) => {
+            println!("Change color to hue {h}, saturation {s}, value {v}")
+        }
         _ => (),
     }
 
-    // Eger cok cildirmak istersek
+    // If we want to go crazy
     struct Point2 {
         x: i32,
         y: i32,
@@ -202,7 +201,7 @@ fn main() {
 
     let ((feet, inches), Point2 { x, y }) = ((3, 10), Point2 { x: 3, y: -10 });
 
-    //Destruction da degerleri ignore etmek icin .. kullanabiliriz
+    // To ignore values in destructuring, use ..
     struct Point3 {
         x: i32,
         y: i32,
@@ -215,7 +214,7 @@ fn main() {
         Point3 { x, .. } => println!("x is {}", x),
     }
 
-    // Bu syntax i ayni zamanda tuple lar icin de kullanabiliyoruz
+    // This syntax can also be used for tuples
     let numbers = (2, 4, 8, 16, 32);
 
     match numbers {
@@ -224,7 +223,7 @@ fn main() {
         }
     }
 
-    // Asagidaki kod belirsiz oldugu icin hata verecektir
+    // The following code will throw an error because it is ambiguous
     // let numbers = (2, 4, 8, 16, 32);
 
     // match numbers {
@@ -242,7 +241,7 @@ fn main() {
         None => (),
     }
 
-    // Yukaridaki kodun match guard ile yeniden yazimi
+    // Rewriting the above code with match guard
     let x = Some(5);
     let y = 10;
 
@@ -254,7 +253,7 @@ fn main() {
 
     println!("at the end: x = {:?}, y = {y}", x);
 
-    // Match guard expression larini | ile baglama
+    // Combining match guard expressions with |
     let x = 4;
     let y = false;
 
@@ -279,6 +278,4 @@ fn main() {
         }
         Message2::Hello { id } => println!("Found some other id: {}", id),
     }
-    
-    
 }
