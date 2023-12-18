@@ -1,232 +1,210 @@
 # **Structs and Enums in Rust**
 
-#### **Understanding Structs**
+Structs and enums are two of the most common data structures in Rust. They allow us to define custom types that can store different kinds of data and have different behaviors. In this tutorial, I will explain how to create and use structs and enums, how to implement methods and traits for them, and how to use the match statement to handle different variants of enums.
 
-Structs, or structures, are a way of organizing related data in Rust. They are similar to classes in other languages, providing a way to group related data fields together.
+## Structs
 
-##### **Defining and Instantiating Structs**
+A struct is a data structure that groups together some values that are related to each other. For example, we can define a struct that represents a point in a two-dimensional space:
 
-- **Defining a Struct**
-
-  ```rust
-  // A User struct with several fields
-  struct User {
-      active: bool,
-      username: String,
-      email: String,
-      sign_in_count: u64,
-  }
-  ```
-
-- **Creating an Instance of a Struct**
-
-  ```rust
-  // Creating an instance of User
-  let user1 = User {
-      email: String::from("someone@example.com"),
-      username: String::from("someusername123"),
-      active: true,
-      sign_in_count: 1,
-  };
-  ```
-
-- **Mutability of Structs**
-  Rust's struct instances are immutable by default. However, you can make the entire instance mutable.
-
-  ```rust
-  // Making a User instance mutable
-  let mut user1 = User {
-      email: String::from("someone@example.com"),
-      // other fields...
-  };
-
-  // Updating a field in a mutable struct
-  user1.email = String::from("anotheremail@example.com");
-  ```
-
-- **Constructors and Field Init Shorthand**
-  Rust does not have constructors in the traditional sense. However, you can define functions that create instances.
-
-  ```rust
-  // Function that acts as a constructor
-  fn build_user(email: String, username: String) -> User {
-      User {
-          email: email,
-          username: username,
-          active: true,
-          sign_in_count: 1,
-      }
-  }
-
-  // Shorthand for field initialization
-  fn build_user2(email: String, username: String) -> User {
-      User {
-          email,
-          username,
-          active: true,
-          sign_in_count: 1,
-      }
-  }
-  ```
-
-- **Struct Update Syntax**
-  This syntax allows you to create a new struct instance using values from an existing instance.
-  ```rust
-  // Creating a new User instance from an existing one
-  let user2 = User {
-      email: String::from("another@example.com"),
-      ..user1
-  };
-  ```
-
-##### **Tuple Structs and Unit-Like Structs**
-
-- **Tuple Structs**
-  These are similar to tuples, where fields have types but do not have names.
-
-  ```rust
-  struct Color(i32, i32, i32);
-  struct Point(i32, i32, i32);
-  ```
-
-- **Unit-Like Structs**
-  These do not have any fields and are useful for traits.
-  ```rust
-  struct AlwaysEqual;
-  ```
-
-#### **Exploring Enums**
-
-Enums in Rust allow you to define a type by enumerating its possible variants.
-
-##### **Basic Enums**
-
-- **Defining an Enum**
-
-  ```rust
-  enum IpAddrKind {
-      V4,
-      V6,
-  }
-
-  let four = IpAddrKind::V4;
-  let six = IpAddrKind::V6;
-  ```
-
-- **Enums with Data**
-  Enums can also store different types of data.
-
-  ```rust
-  enum IpAddr {
-      V4(String),
-      V6(String),
-  }
-
-  let home = IpAddr::V4(String::from("127.0.0.1"));
-  let loopback = IpAddr::V6(String::from("::1"));
-  ```
-
-- **Method Definitions in Enums**
-  Enums can have methods defined on them.
-
-  ```rust
-  enum Message {
-      Quit,
-      Move { x: i32, y: i32 },
-      Write(String),
-      ChangeColor(i32, i32, i32),
-  }
-
-  impl Message {
-      fn call(&self) {
-          // method body
-      }
-  }
-  ```
-
-- **The `Option` Enum**
-  Rust does not have nulls, but it does have an enum that can encode the concept of a value being present or absent.
-
-  ```rust
-  enum Option<T> {
-      None,
-      Some(T),
-  }
-
-  let some_number = Some(5);
-  let some_char = Some('e');
-  let absent_number: Option<i32> = None;
-  ```
-
-##### **Match Control Flow Operator**
-
-Rust’s `match` allows you to compare a value against a series of patterns and then execute code based on the matching pattern.
-
-- **Basic Match Usage**
-
-  ```rust
-  enum Coin {
-      Penny,
-      Nickel,
-      Dime,
-      Quarter,
-  }
-
-  fn value_in_cents(coin: Coin) -> u8 {
-      match coin {
-          Coin::Penny => 1,
-          Coin::Nickel => 5,
-          Coin::Dime => 10,
-          Coin::Quarter => 25
-  ```
-
-,
-}
-}
-
-````
-
-- **Patterns and Destructuring**
 ```rust
-#[derive(Debug)]
-enum UsState {
-    Alabama,
-    Alaska,
-    // ... etc
+// Define a struct named Point with two fields: x and y
+struct Point {
+    x: f64,
+    y: f64,
 }
 
-enum Coin {
-    Penny,
-    Nickel,
-    Dime,
-    Quarter(UsState),
+// Create an instance of Point with some values
+let p = Point { x: 3.0, y: 4.0 };
+
+// Access the fields of the struct using dot notation
+println!("The point is at ({}, {})", p.x, p.y);
+```
+
+There are three types of structs in Rust: named structs, tuple structs, and unit structs. Named structs have named fields, as shown in the previous example. Tuple structs have unnamed fields, and they are similar to tuples. Unit structs have no fields, and they are useful for creating new types that are distinct from other types. For example, we can define a tuple struct that represents a color:
+
+```rust
+// Define a tuple struct named Color with three fields: red, green, and blue
+struct Color(f64, f64, f64);
+
+// Create an instance of Color with some values
+let c = Color(0.5, 0.8, 0.3);
+
+// Access the fields of the tuple struct using dot notation and index notation
+println!("The color is ({}, {}, {})", c.0, c.1, c.2);
+```
+
+We can also define a unit struct that represents a unit of measurement:
+
+```rust
+// Define a unit struct named Meter
+struct Meter;
+
+// Create an instance of Meter
+let m = Meter;
+
+// Use the instance of Meter as a type annotation
+let length: Meter = m;
+```
+
+## Enums
+
+An enum is a data structure that defines a set of possible variants, each of which can store some data. For example, we can define an enum that represents a message:
+
+```rust
+// Define an enum named Message with four variants: Quit, Move, Write, and ChangeColor
+enum Message {
+    // Quit has no data associated with it
+    Quit,
+    // Move has a tuple struct associated with it, which contains the x and y coordinates
+    Move(Point),
+    // Write has a String associated with it, which contains the text of the message
+    Write(String),
+    // ChangeColor has a tuple struct associated with it, which contains the red, green, and blue values
+    ChangeColor(Color),
 }
 
-fn value_in_cents(coin: Coin) -> u8 {
-    match coin {
-        Coin::Penny => 1,
-        Coin::Nickel => 5,
-        Coin::Dime => 10,
-        Coin::Quarter(state) => {
-            println!("State quarter from {:?}!", state);
-            25
-        }
+// Create an instance of Message with the Move variant and some values
+let m = Message::Move(Point { x: 10.0, y: 20.0 });
+
+// Access the variant and the data of the enum using dot notation and pattern matching
+match m {
+    // If the variant is Move, bind the data to a variable named p
+    Message::Move(p) => println!("The message is to move to ({}, {})", p.x, p.y),
+    // If the variant is any other, do nothing
+    _ => (),
+}
+```
+
+The match statement is a powerful control flow construct that allows us to handle different variants of an enum in a concise and exhaustive way. The match statement takes an expression and compares it to a series of patterns, each of which has a corresponding block of code. The patterns can be literals, variables, wildcards, or other enums. The code associated with the first pattern that matches the expression is executed. If no pattern matches, the program will panic, unless there is a default case using the wildcard pattern `_`.
+
+## Methods and Traits
+
+We can define methods and traits for structs and enums, which allow us to add functionality and behavior to our custom types. A method is a function that is associated with a type and can be called on an instance of that type. A trait is a collection of methods that can be implemented for different types. For example, we can define a method that calculates the distance between two points, and a trait that defines a method that returns the area of a shape:
+
+```rust
+// Define a method named distance for the Point struct
+impl Point {
+    // The first parameter is always self, which refers to the instance of the struct
+    // The second parameter is another instance of Point
+    fn distance(&self, other: &Point) -> f64 {
+        // Use the Pythagorean theorem to calculate the distance
+        ((self.x - other.x).powi(2) + (self.y - other.y).powi(2)).sqrt()
     }
 }
-````
 
-##### **Using `if let`**
+// Define a trait named Shape that has a method named area
+trait Shape {
+    // The method has no parameters and returns a f64
+    fn area(&self) -> f64;
+}
 
-`if let` is a syntax sugar for a `match` that runs code when the value matches one pattern and ignores other patterns.
+// Implement the Shape trait for the Point struct
+impl Shape for Point {
+    // Define the area method
+    fn area(&self) -> f64 {
+        // A point has zero area
+        0.0
+    }
+}
 
-- **`if let` Example**
-  ```rust
-  let config_max: Option<i32> = None;
-  if let Some(max) = config_max {
-      println!("The maximum is configured to be {}", max);
-  }
-  ```
+// Create two instances of Point
+let p1 = Point { x: 3.0, y: 4.0 };
+let p2 = Point { x: 6.0, y: 8.0 };
 
-#### **Conclusion**
+// Call the distance method on p1 and pass p2 as an argument
+let d = p1.distance(&p2);
+println!("The distance between the points is {}", d);
 
-In this section, we explored Rust's structs and enums, which are fundamental to structuring and handling data in Rust. We covered how to define and use structs, including tuple structs and unit-like structs, and how to define and match enums, including the powerful `Option` enum. These tools provide a robust framework for handling complex data structures and various cases in Rust, significantly enhancing the language's expressiveness and safety.
+// Call the area method on p1
+let a = p1.area();
+println!("The area of the point is {}", a);
+```
+
+## Option and Result Enums
+
+Rust has two built-in enums that are widely used in the standard library and in many other crates: Option and Result. These enums are useful for handling situations where a value may be present or absent, or where an operation may succeed or fail.
+
+The Option enum has two variants: Some and None. The Some variant contains a value of some type, and the None variant indicates the absence of a value. For example, we can use the Option enum to represent the result of searching for a value in a vector:
+
+```rust
+// Define a vector of integers
+let v = vec![1, 2, 3, 4, 5];
+
+// Define a function that takes a vector and a value and returns an Option<usize>
+fn find(v: &Vec<i32>, x: i32) -> Option<usize> {
+    // Iterate over the vector and its indices
+    for (i, &n) in v.iter().enumerate() {
+        // If the value matches the element, return Some with the index
+        if n == x {
+            return Some(i);
+        }
+    }
+    // If the value is not found, return None
+    None
+}
+
+// Call the find function with the vector and a value
+let r = find(&v, 3);
+
+// Use the match statement to handle the result
+match r {
+    // If the result is Some, print the index
+    Some(i) => println!("The value is at index {}", i),
+    // If the result is None, print a message
+    None => println!("The value is not in the vector"),
+}
+```
+
+The Result enum has two variants: Ok and Err. The Ok variant contains a value of some type, and the Err variant contains an error of some type. For example, we can use the Result enum to represent the result of parsing a string into a number:
+
+```rust
+// Define a string that contains a number
+let s = "42";
+
+// Use the parse method to convert the string into a number
+// The parse method returns a Result<i32, ParseIntError>
+let r = s.parse::<i32>();
+
+// Use the match statement to handle the result
+match r {
+    // If the result is Ok, print the number
+    Ok(n) => println!("The number is {}", n),
+    // If the result is Err, print the error
+    Err(e) => println!("The error is {}", e),
+}
+```
+
+We can also use the `?` operator to propagate errors from a function that returns a Result. The `?` operator will return the value inside the Ok variant if the result is Ok, or return the error inside the Err variant if the result is Err. For example, we can define a function that reads a file and parses its contents into a number:
+
+```rust
+use std::fs::File;
+use std::io::Read;
+use std::num::ParseIntError;
+
+// Define a function that takes a file name and returns a Result<i32, ParseIntError>
+fn read_number(file_name: &str) -> Result<i32, ParseIntError> {
+    // Open the file and handle the possible error using the ? operator
+    let mut file = File::open(file_name)?;
+    // Create an empty string
+    let mut s = String::new();
+    // Read the file contents into the string and handle the possible error using the ? operator
+    file.read_to_string(&mut s)?;
+    // Parse the string into a number and return the result
+    s.trim().parse::<i32>()
+}
+
+// Call the read_number function with a file name
+let r = read_number("number.txt");
+
+// Use the match statement to handle the result
+match r {
+    // If the result is Ok, print the number
+    Ok(n) => println!("The number is {}", n),
+    // If the result is Err, print the error
+    Err(e) => println!("The error is {}", e),
+}
+```
+
+## Summary
+
+In this tutorial, we learned how to create and use structs and enums, how to implement methods and traits for them, and how to use the match statement to handle different variants of enums. We also learned about the Option and Result enums, which are useful for handling situations where a value may be present or absent, or where an operation may succeed or fail.

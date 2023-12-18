@@ -1,196 +1,130 @@
-use std::{thread, time::Duration};
+fn main() {
+    // Closures are functions that can capture the environment in which they are defined
+    // They can be defined using the syntax |parameters| -> return_type { body }
+    // The parameter types and the return type are optional and can be inferred by the compiler
+    // Closures can capture variables from the environment by value, by reference, or by mutable reference
+    // The way of capturing variables can be indicated by the move keyword or the &mut keyword
+    // Closures implement one of the three variants of the Fn trait: Fn, FnMut, or FnOnce
+    // These variants correspond to the different ways of capturing variables
 
-#[derive(Debug, PartialEq, Copy, Clone)]
-enum ShirtColor {
-    Red,
-    Blue,
-}
+    // Closure usage examples
 
-struct Inventory {
-    shirts: Vec<ShirtColor>,
-}
+    // A closure that takes no arguments and returns a string
+    let hello = || -> String { "Hello, world!".to_string() };
 
-impl Inventory {
-    fn giveaway(&self, user_preference: Option<ShirtColor>) -> ShirtColor {
-        user_preference.unwrap_or_else(|| self.most_stocked())
+    // A closure that takes a string slice as an argument and returns a string
+    let greet = |name: &str| -> String { format!("Hello, {}!", name) };
+
+    // A closure that takes two integers as arguments and returns an integer
+    let add = |x: i32, y: i32| -> i32 { x + y };
+
+    // A closure that captures a variable by value and returns a string
+    let name = String::from("Alice");
+    let introduce = move || -> String { format!("My name is {}.", name) };
+
+    // A closure that captures a variable by mutable reference and returns nothing
+    let mut count = 0;
+    let increment = || {
+        count += 1;
+        println!("Count is {}", count);
+    };
+
+    // A closure that captures a variable by reference and returns a boolean
+    let threshold = 10;
+    let is_above_threshold = |x: i32| -> bool { x > threshold };
+
+    // Iterators are objects that can produce a sequence of values
+    // Iterators are lazy, meaning that they do not produce the values until they are requested
+    // Iterators can be created from collections using the iter method
+    // Iterators can also be created using other methods, such as range, repeat, or cycle
+    // Iterators implement the Iterator trait, which has one main method: next
+    // The next method returns an Option value that contains either the next value or None
+    // Iterators also have many other methods that provide additional functionality, such as filter, map, sum, collect, and more
+    // These methods are called iterator adaptors, because they take an iterator and return another iterator that adapts the behavior
+    // Iterator adaptors are generic over the type of the iterator and the type of the closure that they take as an argument
+    // Iterator adaptors can be chained together to create complex and expressive computations
+
+    // Iterators in Loops
+
+    // One of the most common ways to use iterators is to loop over them using a for loop
+    // The for loop takes an iterator as an argument and executes a block of code for each value produced by the iterator
+    // The for loop consumes the iterator, meaning that it uses up all the values produced by the iterator
+    // The for loop handles the termination condition automatically, stopping when the iterator runs out of values
+
+    // A for loop that prints the elements of a vector
+    let numbers = vec![1, 2, 3, 4, 5];
+    for n in numbers.iter() {
+        println!("{}", n);
     }
 
-    fn most_stocked(&self) -> ShirtColor {
-        let mut num_red = 0;
-        let mut num_blue = 0;
+    // A for loop that prints the characters of a string
+    let message = "Hello, world!";
+    for c in message.chars() {
+        println!("{}", c);
+    }
 
-        for color in &self.shirts {
-            match color {
-                ShirtColor::Red => num_red += 1,
-                ShirtColor::Blue => num_blue += 1,
+    // A for loop that prints the numbers from 1 to 10
+    let numbers = vec![1, 2, 3, 4, 5];
+    let is_even = |x: &i32| *x % 2 == 0; // Remove the dereference operator *
+    let square = |x: &i32| x * x;
+    let sum_of_squares: i32 = numbers
+        .iter()
+        .filter(|&&x| is_even(&x))
+        .map(|x| square(x))
+        .sum();
+    println!("{}", sum_of_squares);
+
+    // An example of using a closure with an iterator to find the longest word in a string
+    let sentence = "This is a sentence with some words";
+    let longest_word: String = sentence
+        .split_whitespace()
+        .max_by_key(|s| s.len())
+        .unwrap()
+        .to_string();
+    println!("{}", longest_word);
+
+    // An example of using a closure with an iterator to create a new vector that contains the words that start with a vowel in a string
+    let sentence = "This is another sentence with different words";
+    let is_vowel = |c: char| -> bool {
+        match c {
+            'a' | 'e' | 'i' | 'o' | 'u' | 'A' | 'E' | 'I' | 'O' | 'U' => true,
+            _ => false,
+        }
+    };
+    // Add the rand crate as a dependency in your Cargo.toml file
+    // This will resolve the unresolved import `rand`
+    use rand::Rng; // import the rand crate to use random number generation
+    let mut rng = rand::thread_rng(); // create a random number generator
+    let names = ["Alice", "Bob", "Charlie", "David", "Eve"]; // create an array of names
+    let mut random_name = || -> String {
+        // declare the closure as mutable
+        let index = rng.gen_range(0..names.len()); // generate a random index
+        names[index].to_string() // return the name at the index
+    };
+    for name in (0..10).map(|_| random_name()) {
+        // loop over the first 10 values of the closure
+        println!("{}", name);
+    }
+
+    // Using a closure that takes one argument and returns a boolean
+    // This type of closure can be used to filter a sequence of values, such as numbers, strings, or structs
+
+    // An example of using a closure that takes one argument and returns a boolean to filter a vector of numbers by keeping only the prime numbers
+    let numbers = vec![2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let words = vec!["hello", "world", "rust"]; // Declare and initialize the `words` variable
+    let is_prime = |&x: &i32| -> bool {
+        if x <= 1 {
+            return false;
+        }
+        for i in 2..x {
+            if x % i == 0 {
+                return false;
             }
         }
-        if num_red > num_blue {
-            ShirtColor::Red
-        } else {
-            ShirtColor::Blue
-        }
-    }
-}
-
-#[derive(PartialEq, Debug)]
-struct Shoe {
-    size: u32,
-    style: String,
-}
-
-fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
-    shoes.into_iter().filter(|s| s.size == shoe_size).collect()
-}
-
-fn main() {
-    //***** Closure ****
-    // let store = Inventory {
-    //     shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
-    // };
-
-    // let user_pref1 = Some(ShirtColor::Red);
-    // let giveaway1 = store.giveaway(user_pref1);
-    // println!(
-    //     "The user with preference {:?} gets {:?}",
-    //     user_pref1, giveaway1
-    // );
-
-    // let user_pref2 = None;
-    // let giveaway2 = store.giveaway(user_pref2);
-    // println!(
-    //     "The user with preference {:?} gets {:?}",
-    //     user_pref2, giveaway2
-    // );
-
-    //En genel hali ile closure tanim ornegi
-    // let expensive_closure = |num: u32| -> u32 {
-    //     println!("calculating slowly...");
-    //     thread::sleep(Duration::from_secs(2));
-    //     num
-    // };
-
-    //Fonksiyonlar ve closure tanimlamalari karsilastirmasi
-    // fn  add_one_v1   (x: u32) -> u32 { x + 1 };
-    // let add_one_v2 = |x: u32| -> u32 { x + 1 };
-    // let add_one_v3 = |x| { x + 1 };
-    // let add_one_v4 = |x| x + 1  ;
-
-    //Eger bir closure i type i olmadan yarattiysak parametresinde,
-    //o zaman ilk kullanimindan parametre type ini alir ve bundan sonra onu bekler.
-    //param type i belirtilmemis closure ilk kullanimina kadar hata verir.
-    //Ilk kullanimindan sonra type ini bildigi icin artik hata vermeyecektir.
-    // let my_closure = |num| num + 1;
-    // let first = my_closure(1);
-    // let second = my_closure("Arda");
-
-    //Closure lar gereksinime gore otomatik olarak 3 farkli sekilde calisabilir.
-    //1- borrows immutable
-    //2- borrows mutable
-    //3- takes ownership
-
-    //Immutable olarak alma ornegi
-    // let list = vec![1, 2, 3];
-    // println!("Before defining closure: {:?}", list);
-
-    // let only_borrows = || println!("From closure: {:?}", list);
-
-    // println!("Before calling closure: {:?}", list);
-    // only_borrows();
-    // println!("After calling closure: {:?}", list);
-
-    //Mutable olarak alma ornegi
-    // let mut list = vec![1, 2, 3];
-    // println!("Before defining closure: {:?}", list);
-    // let mut borrows_mutably = || list.push(7);
-   
-    // borrows_mutably();
-    // println!("After calling closure: {:?}", list);
-
-    //Ownership i closure in almasi icin 'move' keyword u ile onu forcelayabiliriz
-    // let list = vec![1, 2, 3];
-    // println!("Before defining closure: {:?}", list);
-
-    // thread::spawn(move || println!("From thread: {:?}", list))
-    //     .join()
-    //     .unwrap();
-
-    //***** Iterator ****
-    //Iterator lazy dir, yani tek baslarina islevsizdir
-    // let v1 = vec![1, 2, 3];
-    // let v1_iter = v1.iter();
-
-    //Kullanim ornegi
-    // let v1 = vec![1, 2, 3];
-    // let v1_iter = v1.iter();
-    // for val in v1_iter {
-    //     println!("Got: {}", val);
-    // }
-
-    //next fonksiyonu iterator daki objeyi dondurup bir ileri goturuyor structure i
-    //Bunu yaparak aslinda bu method iterator u consume ediyor
-    // let v1 = vec![1, 2, 3];
-    // let mut v1_iter = v1.iter();
-    // assert_eq!(v1_iter.next(), Some(&1));
-    // assert_eq!(v1_iter.next(), Some(&2));
-    // assert_eq!(v1_iter.next(), Some(&3));
-    // assert_eq!(v1_iter.next(), None);
-
-    //Yukarida next ten aldiklarimiz bizim immutable reference larimiz
-    //For a verdigimizde de aslinda ownership i aliyor ve arka tarafta mutable reference olusturuyor
-    //Biz iterator in ownership i alip value lari dondurmesini istiyorsak into_iter() kullanabiliriz
-    //Mutable reference ile iter etmek istiyorsak iter_mut() kullanilabilir
-
-
-    //Iterator adaptorlar iterator u consume etmeyen methodlar
-    //Map metodu
-    // let v1: Vec<i32> = vec![1, 2, 3];
-    // v1.iter().map(|x| x + 1);
-    //Yukarida map bir closure aliyor. 
-    //Biz closure larin lazy oldugunu biliyoruz o yuzden bu kodun aslinda bir sey yapmadigina dair uyari aliriz
-
-
-    //Yukariyi asagi ile guncelleyebiliriz
-    //collect() i kullanarak degerleri alabiliriz
-    // let v1: Vec<i32> = vec![1, 2, 3];
-    // let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
-    // assert_eq!(v2, vec![2, 3, 4]);
-    //Yukaridaki islem sonucunda v1 vectoru herhangi bir sekilde etkilenmiyor
-
-    //Filter baska bir iterator consume etmeyen ornek
-    //filter() i kullanarak iteratordan sadece istedigimiz kriterlere uyanlari alabiliriz
-    // let shoes = vec![
-    //         Shoe {
-    //             size: 10,
-    //             style: String::from("sneaker"),
-    //         },
-    //         Shoe {
-    //             size: 13,
-    //             style: String::from("sandal"),
-    //         },
-    //         Shoe {
-    //             size: 10,
-    //             style: String::from("boot"),
-    //         },
-    //     ];
-
-    //     let in_my_size = shoes_in_size(shoes, 10);
-
-    //     assert_eq!(
-    //         in_my_size,
-    //         vec![
-    //             Shoe {
-    //                 size: 10,
-    //                 style: String::from("sneaker")
-    //             },
-    //             Shoe {
-    //                 size: 10,
-    //                 style: String::from("boot")
-    //             },
-    //         ]
-    //     );
-
-    //     println!("{:?}", in_my_size);
-
-    //Not: iterator ve closure lar kullandigimizda herhangi bir performans kaybi yasamayiz.
+        true
+    };
+    let reverse = |s: &&str| s.chars().rev().collect::<String>();
+    let reversed_words: Vec<String> = words.iter().map(reverse).collect();
+    // create a new vector that contains the reversed words of the original vector
+    println!("{:?}", reversed_words);
 }

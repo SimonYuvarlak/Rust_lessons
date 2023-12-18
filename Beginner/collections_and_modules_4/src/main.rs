@@ -1,119 +1,72 @@
-mod functions;
-use crate::functions::hashmap;
-// use std::collections::HashMap;
+mod functions; // We are importing the example function from this module
 
 fn main() {
-    // Vector ********************
+    // Collections
 
-    // Vector yaratma
-    // let v: Vec<i32> = Vec::new();
-    // let mut v = vec![1, 2, 3];
+    // Vec: a growable, heap-allocated array
+    let mut v = Vec::from([1, 2, 3, 4, 5]);
+    v.push(6); // Pushing an element to the end of the Vec
+    let x = v.get(0); // Accessing an element by index
+    println!("First element in Vec: {:?}", x);
 
-    // Vector e yani elemanlari push fonksiyonu ile ekleyebiliriz
-    // v.push(4);
-    // println!("{}", v.len());
+    // String: a growable, heap-allocated string
+    let mut s = String::from("hello");
+    s.push_str(", world"); // Appending another String
+    println!("String: {}", s);
 
-    // Vectorden eleman okuma
-    // let ilk_eleman = &v[0];
-    // println!("ilk eleman -> {}", ilk_eleman);
+    // HashMap: a hash map storing key-value pairs
+    let mut h = std::collections::HashMap::new();
+    h.insert("name", "Alice");
+    let y = h.get("name"); // Accessing a value by key
+    println!("Value in HashMap: {:?}", y);
 
-    // Get metodu ile eleman alirsak o zaman Option doner
-    // let son_eleman = v.get(v.len() - 1);
-    // match son_eleman {
-    //     Some(eleman) => {
-    //         println!("Son eleman -> {}", eleman);
-    //     },
-    //     None => {
-    //         println!("Erisimde sorun yasandi.");
-    //     }
-    // }
+    // HashSet: a hash set storing unique values
+    let mut z = std::collections::HashSet::from([1, 2, 3]);
+    z.insert(4); // Inserting a new element
+    for n in &z {
+        println!("Element in HashSet: {}", n);
+    }
 
-    // Eger mutable bir vectorun elemanini mutable olmayan bir variable a esitlersek sonra o vektor u kullanirken sikinti yasariz
-    // let mut v = vec![1, 2, 3, 4, 5];
-    // let first = &v[0];
-    // println!("The first element is: {first}");
-    // v.push(6);
+    // BTreeMap: a binary tree map
+    let mut btm = std::collections::BTreeMap::new();
+    btm.insert(1, "One");
+    btm.insert(2, "Two");
+    let l3 = btm.len(); // Checking the length
+    println!("Number of elements in BTreeMap: {}", l3);
 
+    // BTreeSet: a binary tree set
+    let mut bts = std::collections::BTreeSet::new();
+    bts.insert("Apple");
+    bts.insert("Banana");
+    for item in &bts {
+        println!("Element in BTreeSet: {}", item);
+    }
 
-    // Vector un elemanlarini yazdirma=
-    // for i in &v {
-    //     println!("{}", i);
-    // }
+    // Modules
 
-    // for i in &mut v {
-    //     *i -= 1;
-    //     println!("{}", i);
-    // }
+    // Accessing functions from a module
+    // Assuming math module is defined and public in the context of this program
+    let z = math::add(2, 3); // Using a function from the math module
+    println!("Sum from math module: {}", z);
 
-    // Vectorde ayni tipte elemanlari tutabiliriz ama farkli tiptekileri tutmak istersek de enum kullanabiliriz
+    // Using `use` keyword to simplify function calls
+    use math::sub;
+    let z1 = sub(5, 2); // Using sub function directly
+    println!("Difference using sub function: {}", z1);
 
-    // String ********************
-    // to_string() metodu
-    // let orijinal_string = String::from("orijinal string");
-    // let kopya_string = "Ilk string".to_string();
-    // println!("Orijinal string -> {}", orijinal_string);
-    // println!("Kopya string -> {}", kopya_string);
+    // Now, we will use example_function from the functions module
+    // First we need to import the module
+    use functions::example_function;
+    example_function::example(); // Calling the example_function
+}
 
-    // bos string yaratma
-    // let mut bos_string = String::new();
+// Assuming the math module is defined somewhere in the program
+pub mod math {
+    pub fn add(x: i32, y: i32) -> i32 {
+        x + y
+    }
 
-    // string upadateleme
-    // bos_string.push_str("dolu artik bu string");
-    // println!("Dolu string -> {}", bos_string);
-
-    // let s1 = String::from("Hello, ");
-    // let s2 = String::from("world!");
-    // let s3 = s1 + &s2; // s1 move edildi ve artik kullanilamaz
-
-    // println!("s1 -> {}", s1);
-    // println!("s1 -> {}", s2);
-    // println!("s1 -> {}", s3);
-    
-    // chars() fonsksiyonu
-    // Bircok dil stringlerde my_string[index] desteklese de rust desteklemiyor.
-    // Bu islem icin chars() fonksiyonunu kullanabiliriz
-    // let my_string = String::from("deneme");
-    // for i in my_string.chars() {
-    //     println!("{}", i);
-    // }
-
-    // HashMaps ********************
-    // Hash map yaratimi
-    // let mut scores = HashMap::new();
-    // scores.insert(String::from("Blue@gmail.com"), 101265);
-    // scores.insert(String::from("Yellow"), 50);
-    // println!("{:?}", scores);
-
-    // let team_name = String::from("Blue");
-    // let score = scores.get(&String::from("Blue@gmail.com")).copied().unwrap_or(0);
-    // println!("score -> {}", score);
-
-    // Iterate
-    // for (key, value) in &scores {
-    //     println!("{key}: {value}");
-    // }
-
-    // Hashmap ve ownership
-    // String heap te doplandigi icin burada insert ettigimizde, move ediliyor stack gibi kopyalanmiyor
-    // O yuzden insert isleminden sonra string degerleri tekrar kullanmamiyoruz
-    // let field_name = String::from("Favorite color");
-    // let field_value = String::from("Blue");
-    // let mut map = HashMap::new();
-    // map.insert(field_name, field_value);
-    // let name = field_name;
-
-    // Overwrite a value
-    // Burada once Blue ya 20, sonra o 20 yerine 25 yazilir ve son degeri 25 burda
-    // scores.insert(String::from("Blue"), 20);
-    // scores.insert(String::from("Blue"), 25);
-    // println!("{:?}", scores);
-
-    // entry fonksiyonu eger o deger yoksa degeri yaratir varsa ellemez hash map i
-    // scores.entry(String::from("Black")).or_insert(50);
-    // scores.entry(String::from("Blue")).or_insert(50);
-    // println!("{:?}", scores);
-
-    // Asagidaki fonksiyon verilen cumlede kelimelerin kac kere gectigini sayiyor
-    let my_map = hashmap::count_words("Deneme bir iki, deneme bir ki uc");
-    println!("{:?}", my_map);
+    pub fn sub(x: i32, y: i32) -> i32 {
+        x - y
+    }
 }

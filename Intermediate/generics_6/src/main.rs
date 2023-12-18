@@ -1,78 +1,60 @@
-mod functions;
-use crate::functions::first_module;
-fn main() {
-    // Generics ***********
-    // Asagida klasik bir vector ornegi var
-    // let mut vector_integer: Vec<i32> = vec![20,30];
-    // vector_integer.push(40);
-    // println!("{:?}",vector_integer);
-
-    // Asagidaki kod hata verecek cunku vector ayni type ta elemanlar tutabilir
-    // vector_integer.push("hello"); 
-    // error[E0308]: mismatched types
-    // println!("{:?}",vector_integer);
-
-    // Simdi yukaridaki ornegi generic le bircok tip tutabilir hale getirelim
-    // Oncelikle kullanmak icin yeni bir struct belirleyecegiz
-    // struct Data<T> {
-    //     value:T,
-    // }
-
-    // Simdi vektor tanimlamamizi yapacagiz
-    // generic type of i32
-    // let t:Data<i32> = Data{value:350};
-    // println!("value is :{} ",t.value);
-    //generic type of String
-    // let t2:Data<String> = Data{value:"Tom".to_string()};
-    // println!("value is :{} ",t2.value);
-    // Trait *********
-    // Trait leri object oriented programmingdeki abstract class lar gibi dusunebiliriz
-    /*
-        Trait ler, somut methodlar veya soyut methodlar içerebilir. 
-        Method tanımı Trait i uygulayan tüm yapılar tarafından paylaşılacaksa somut bir yöntem kullanın.
-        Ancak, bir yapı, özellik tarafından tanımlanan bir işlevi geçersiz kılmayı seçebilir.
-    */
-    //create an instance of the structure
-    let b1 = Book {
-        id:1001,
-        name:"Rust in Action"
-    };
-    b1.print();
-    // b1.default_print();
-    // Traitler belli siniflarla varolabildikleri icin kendi baslarina struct impl lari gibi cagirilamazlar
-    // Printable::sahipsiz_print();
-
-    // Generic functions **********
-    first_module::print_pro(10 as u8);
-    first_module::print_pro(20 as u16);
-    first_module::print_pro("Bir de string verelim");
-
+// Generic function to swap two values
+fn swap<T: Copy>(x: &mut T, y: &mut T) {
+    let temp = *x;
+    *x = *y;
+    *y = temp;
 }
-//declare a structure
-struct Book {
-    name:&'static str,
-    id:u32
- }
- //declare a trait
- trait Printable {
-    fn print(&self);
-    fn default_print(&self) {
-        println!("Bu default belirledigimiz print function i");
-    }
-    fn sahipsiz_print() {
-        println!("Bu sahipsiz print");
-    }
- }
- //implement the trait
- impl Printable for Book {
-    fn print(&self){
-       println!("Printing book with id:{} and name {}",self.id,self.name)
-    }
-    fn default_print(&self) {
-        println!("Bu book icin olan default print");
-    }
- }
 
- // Generic function
- // prinln! macro su ile calismasi icin verilen type in Display trait ini implement etmis olmasi gerekli
+// Generic struct representing a point in 2D space
+struct Point<T> {
+    x: T,
+    y: T,
+}
 
+// Generic enum representing an optional value
+enum Option<T> {
+    Some(T),
+    None,
+}
+
+// Generic trait for calculating the distance
+trait Distance<T> {
+    fn distance(&self, other: &T) -> f64;
+}
+
+// Implementing the Distance trait for Point
+impl<T> Distance<Point<T>> for Point<T>
+where
+    T: Copy + Into<f64>,
+{
+    fn distance(&self, other: &Point<T>) -> f64 {
+        let dx = self.x.into() - other.x.into();
+        let dy = self.y.into() - other.y.into();
+        (dx * dx + dy * dy).sqrt()
+    }
+}
+
+fn main() {
+    // Using the generic swap function with integers
+    let mut a = 10;
+    let mut b = 20;
+    swap(&mut a, &mut b);
+    println!("a = {}, b = {}", a, b);
+
+    // Using the generic swap function with strings
+    let mut x = "hello";
+    let mut y = "world";
+    swap(&mut x, &mut y);
+    println!("x = {}, y = {}", x, y);
+
+    // Creating instances of generic Point struct
+    let p1 = Point { x: 1, y: 2 };
+    let p2 = Point { x: 1.5, y: 2.5 };
+    let p3 = Point { x: "a", y: "b" };
+
+    // Using the generic Option enum
+    let o1: Option<i32> = Option::Some(10);
+    let o2: Option<f64> = Option::Some(3.14);
+    let o3: Option<&str> = Option::Some("hello");
+    let o4: Option<()> = Option::None;
+}

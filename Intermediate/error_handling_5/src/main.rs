@@ -1,83 +1,179 @@
+// Import the standard library modules
+use std::error::Error;
+use std::fmt;
 use std::fs::File;
-use std::io::{self, Read, ErrorKind};
+use std::io::Read;
+use std::collections::HashSet;
+
+// Define a custom error type named MathError
+#[derive(Debug)]
+struct MathError {
+    // Add a field named message that contains a string
+    message: String,
+}
+
+// Implement the Display trait for MathError
+impl fmt::Display for MathError {
+    // Define the fmt method that takes a formatter and returns a Result
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        // Write the message to the formatter
+        write!(f, "{}", self.message)
+    }
+}
+
+// Implement the Error trait for MathError
+impl Error for MathError {
+    // Define the source method that returns the underlying cause of the error
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        // Return None, as there is no underlying cause
+        None
+    }
+}
+
+// Define a function named div that takes two integers and returns a Result<i32, MathError>
+fn div(x: i32, y: i32) -> Result<i32, MathError> {
+    // Check if the second integer is zero
+    if y == 0 {
+        // Return a MathError with a message
+        Err(MathError {
+            message: "Cannot divide by zero".to_string(),
+        })
+    } else {
+        // Return the quotient as Ok
+        Ok(x / y)
+    }
+}
+
+// Define a collection named PrimeSet that implements a set of prime numbers
+#[derive(Debug)]
+pub struct PrimeSet {
+    // Add a field named data that contains a HashSet<i32>
+    data: HashSet<i32>,
+}
+
+// Implement the new method for the PrimeSet collection that returns an empty set of prime numbers
+impl PrimeSet {
+    fn new() -> PrimeSet {
+        // Create an empty HashSet and assign it to a variable
+        let data = HashSet::new();
+        // Return a PrimeSet with the data field
+        PrimeSet { data }
+    }
+}
+
+// Implement the insert method for the PrimeSet collection that takes an integer and inserts it into the set if it is a prime number, and returns a boolean indicating whether the insertion was successful or not
+impl PrimeSet {
+    fn insert(&mut self, x: i32) -> bool {
+        // Check if the integer is a prime number
+        if is_prime(x) {
+            // Insert the integer into the data field and return true
+            self.data.insert(x);
+            true
+        } else {
+            // Return false
+            false
+        }
+    }
+}
+
+// Implement the contains method for the PrimeSet collection that takes an integer and returns a boolean indicating whether the set contains the given number or not
+impl PrimeSet {
+    fn contains(&self, x: i32) -> bool {
+        // Check if the data field contains the integer and return the result
+        self.data.contains(&x)
+    }
+}
+
+// Define a module named utils that contains some utility functions for working with numbers
+mod utils {
+    // Define a function named is_prime that takes an integer and returns a boolean indicating whether it is a prime number or not
+    pub fn is_prime(x: i32) -> bool {
+        // Check if the integer is less than or equal to one
+        if x <= 1 {
+            // Return false
+            return false;
+        }
+        // Iterate from two to the square root of the integer
+        for i in 2..=((x as f64).sqrt() as i32) {
+            // Check if the integer is divisible by the iterator
+            if x % i == 0 {
+                // Return false
+                return false;
+            }
+        }
+        // Return true
+        true
+    }
+
+    // Define a function named is_even that takes an integer and returns a boolean indicating whether it is an even number or not
+    pub fn is_even(x: i32) -> bool {
+        // Check if the integer is divisible by two and return the result
+        x % 2 == 0
+    }
+}
+
+// Define a module named math that re-exports the utils module and the PrimeSet collection
+pub mod math {
+    // Bring the utils module and the PrimeSet collection into scope
+    use crate::utils;
+    use crate::PrimeSet;
+    // Re-export the utils module
+    pub use utils::*;
+}
+
+// Use the use keyword to bring the math module into scope
+use math::*;
+
 fn main() {
-    // panic! macrosu direk bizim tarafimizdan cagirilabilen bir makro
-    // Execution i durdurur ve stack i bosaltir
-    // panic!("crash and burn");
+    // Try to open a file and assign the result to a variable
+    let result = File::open("hello.txt");
 
-    // Asagidaki ornekte array de olmayan bir elemana erismeye calisiyoruz.
-    // Eger bu C de olsaydi o lokasyonda ne varsa onu allirdik -> buffer overread
-    // Ama rust bu durum olusmasin diye panikliyor ve execution i durduruyor.
-    // let v = vec![1, 2, 3];
-    // v[99];
+    // Use the match statement to handle the result
+    match result {
+        // If the result is Ok, bind the file handle to a variable named file
+        Ok(file) => {
+            // Do something with the file
+            println!("The file is {:?}", file);
+        }
+        // If the result is Err, bind the error to a variable named error
+        Err(error) => {
+            // Do something with the error
+            println!("The error is {:?}", error);
+        }
+    }
 
-    // Result enum i
-    // enum Result<T, E> {
-    //     Ok(T),
-    //     Err(E),
-    // }
+    // Try to open a file that does not exist and unwrap the result
+    let file = File::open("hello.txt").unwrap(); // this will panic
 
-    // let greeting_file_result = File::open("hello.txt");
+    // Try to open a file that does not exist and expect the result
+    let file = File::open("hello.txt").expect("Failed to open hello.txt"); // this will panic with a message
 
-    // let greeting_file = match greeting_file_result {
-    //     Ok(file) => file,
-    //     Err(error) => panic!("Problem opening the file: {:?}", error),
-    // };
+    // Try to divide two integers and handle the result
+    match div(10, 2) {
+        // If the result is Ok, print the quotient
+        Ok(q) => println!("The quotient is {}", q),
+        // If the result is Err, print the error
+        Err(e) => println!("The error is {}", e),
+    }
 
-    // let greeting_file_result = File::open("hello.txt");
+    // Try to divide two integers and unwrap the result
+    let q = div(10, 0).unwrap(); // this will panic
 
-    // let greeting_file = match greeting_file_result {
-    //     Ok(file) => file,
-    //     Err(error) => match error.kind() {
-    //         ErrorKind::NotFound => match File::create("hello.txt") {
-    //             Ok(fc) => fc,
-    //             Err(e) => panic!("Problem creating the file: {:?}", e),
-    //         },
-    //         other_error => {
-    //             panic!("Problem opening the file: {:?}", other_error);
-    //         }
-    //     },
-    // };
+    // Try to divide two integers and expect the result
+    let q = div(10, 0).expect("Failed to divide"); // this will panic with a message
 
-    // Yukaridaki konseptin daha kisa yazimi 
-    // let greeting_file = File::open("hello.txt").unwrap_or_else(|error| {
-    //     if error.kind() == ErrorKind::NotFound {
-    //         File::create("hello.txt").unwrap_or_else(|error| {
-    //             panic!("Problem creating the file: {:?}", error);
-    //         })
-    //     } else {
-    //         panic!("Problem opening the file: {:?}", error);
-    //     }
-    // }); 
-    // Unwrap yerine expect kullanirsak custom mesaj verebiliriz panic! e
-    // let greeting_file = File::open("hello.txt")
-    //     .expect("hello.txt should be included in this project");
+    // Create a PrimeSet and assign it to a variable
+    let mut p = PrimeSet::new();
 
-    // let res = read_username_from_file();
-    // println!("{:?}", res);
+    // Insert some numbers into the PrimeSet and check if they are prime or even
+    for n in 1..=10 {
+        println!("Is {} prime? {}", n, p.insert(n));
+        println!("Is {} even? {}", n, is_even(n));
+    }
 
-    // enum Option<T> {
-    //     Some(T),
-    //     None,
-    // }
-
-}
-
-// Asagidaki method ilk satirinda ? isaretine geldiginde eger hata aliyorsa direk onu donduruyor ilerlemiyor.
-fn read_username_from_file() -> Result<String, io::Error> {
-    println!("Method started");
-    let mut username_file = File::open("hello.txt")?;
-    println!("passed ?");
-    let mut username = String::new();
-    println!("Did not return after ?");
-    username_file.read_to_string(&mut username)?;
-    Ok(username)
-}
-
-// Yukaridaki fonksiyonu asagidaki gibi daha kisa sekilde de yazabiliriz
-fn read_username_from_file2() -> Result<String, io::Error> {
-    let mut username = String::new();
-    File::open("hello.txt")?.read_to_string(&mut username)?;
-    Ok(username)
+    // Check if the PrimeSet contains some numbers
+    for n in 1..=10 {
+        println!("Does the set contain {}? {}", n, p.contains(n));
+    }
 }
 

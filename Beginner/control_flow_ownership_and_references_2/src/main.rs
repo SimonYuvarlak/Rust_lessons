@@ -1,6 +1,7 @@
 fn main() {
-    // Control Flow: if Statements
-    // Checking if a number is even or odd using if-else
+    // Control Flow
+
+    // Using `if` Statements for Conditional Execution
     let number = 6;
     if number % 2 == 0 {
         println!("{} is even", number);
@@ -8,23 +9,23 @@ fn main() {
         println!("{} is odd", number);
     }
 
-    // Using if in a let Statement
-    // Assigning a variable based on a condition using if-else
+    // Using `if` in a `let` Statement
     let condition = true;
     let number = if condition { 5 } else { 6 };
     println!("The value of number is: {}", number);
 
     // Repetition with Loops
-    // Using a loop to repeat actions until a condition is met
+
+    // Using `loop` for Indefinite Looping
     let mut count = 0;
     loop {
         count += 1;
         if count == 3 {
-            break; // Exits the loop when count reaches 3
+            break;
         }
     }
 
-    // Using a while loop for conditional repetition
+    // Using `while` for Conditional Looping
     let mut number = 3;
     while number != 0 {
         println!("{number}!");
@@ -32,39 +33,53 @@ fn main() {
     }
     println!("LIFTOFF!!!");
 
-    // Iterating over an array with a for loop
+    // Using `for` Loops for Iteration over a Collection
     let a = [10, 20, 30, 40, 50];
     for element in a.iter() {
         println!("the value is: {}", element);
     }
 
-    // Ownership in Rust
-    // Demonstrating how Rust automatically manages memory using the String type
-    let mut s = String::from("hello");
-    s.push_str(", world!"); // Modifying the string
-    println!("{}", s); // s is valid here as it's within its scope
+    // Ownership
+
+    // Creating and Moving a String
+    let s1 = String::from("hello");
+    let s2 = s1; // Ownership of the string is moved to s2
+    // println!("{}", s1); // This line would cause an error because s1 is no longer valid
+
+    // Cloning a String to Keep the Original Data
+    let s1 = String::from("hello");
+    let s2 = s1.clone();
+    println!("s1 is still valid after cloning: {}", s1);
+
+    // Passing a String to a Function and Transferring Ownership
+    let s = String::from("hello");
+    take_ownership(s);
+    // println!("{}", s); // This line would cause an error because ownership of s has been moved
 
     // References and Borrowing
-    // Creating a reference to a String and borrowing it
+
+    // Borrowing a String with Immutable Reference
     let s1 = String::from("hello");
-    let len = calculate_length(&s1); // &s1 creates a reference to s1
+    let len = calculate_length(&s1);
     println!("The length of '{}' is {}.", s1, len);
 
-    // Mutable References
-    // Modifying a String through a mutable reference
+    // Borrowing a String with Mutable Reference
     let mut s = String::from("hello");
-    change(&mut s); // Passing a mutable reference to s
-    println!("{}", s);
+    change(&mut s);
+    println!("String after change: {}", s);
 }
 
-// Function to calculate the length of a string
-// It takes a string reference and returns the length
+// Function to Take Ownership of a String
+fn take_ownership(some_string: String) {
+    println!("Function that takes ownership: {}", some_string);
+}
+
+// Function to Calculate Length of a String using Reference
 fn calculate_length(s: &String) -> usize {
     s.len()
 }
 
-// Function to change a string
-// It takes a mutable string reference and appends ", world"
+// Function to Change a String using Mutable Reference
 fn change(some_string: &mut String) {
     some_string.push_str(", world");
 }
