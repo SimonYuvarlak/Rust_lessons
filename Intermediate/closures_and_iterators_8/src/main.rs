@@ -10,28 +10,28 @@ fn main() {
     // Closure usage examples
 
     // A closure that takes no arguments and returns a string
-    let hello = || -> String { "Hello, world!".to_string() };
+    let _hello = || -> String { "Hello, world!".to_string() };
 
     // A closure that takes a string slice as an argument and returns a string
-    let greet = |name: &str| -> String { format!("Hello, {}!", name) };
+    let _greet = |name: &str| -> String { format!("Hello, {}!", name) };
 
     // A closure that takes two integers as arguments and returns an integer
-    let add = |x: i32, y: i32| -> i32 { x + y };
+    let _add = |x: i32, y: i32| -> i32 { x + y };
 
     // A closure that captures a variable by value and returns a string
     let name = String::from("Alice");
-    let introduce = move || -> String { format!("My name is {}.", name) };
+    let _introduce = move || -> String { format!("My name is {}.", name) };
 
     // A closure that captures a variable by mutable reference and returns nothing
     let mut count = 0;
-    let increment = || {
+    let _increment = || {
         count += 1;
         println!("Count is {}", count);
     };
 
     // A closure that captures a variable by reference and returns a boolean
     let threshold = 10;
-    let is_above_threshold = |x: i32| -> bool { x > threshold };
+    let _is_above_threshold = |x: i32| -> bool { x > threshold };
 
     // Iterators are objects that can produce a sequence of values
     // Iterators are lazy, meaning that they do not produce the values until they are requested
@@ -84,8 +84,8 @@ fn main() {
     println!("{}", longest_word);
 
     // An example of using a closure with an iterator to create a new vector that contains the words that start with a vowel in a string
-    let sentence = "This is another sentence with different words";
-    let is_vowel = |c: char| -> bool {
+    let _sentence = "This is another sentence with different words";
+    let _is_vowel = |c: char| -> bool {
         match c {
             'a' | 'e' | 'i' | 'o' | 'u' | 'A' | 'E' | 'I' | 'O' | 'U' => true,
             _ => false,
@@ -110,9 +110,9 @@ fn main() {
     // This type of closure can be used to filter a sequence of values, such as numbers, strings, or structs
 
     // An example of using a closure that takes one argument and returns a boolean to filter a vector of numbers by keeping only the prime numbers
-    let numbers = vec![2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let _numbers = vec![2, 3, 4, 5, 6, 7, 8, 9, 10];
     let words = vec!["hello", "world", "rust"]; // Declare and initialize the `words` variable
-    let is_prime = |&x: &i32| -> bool {
+    let _is_prime = |&x: &i32| -> bool {
         if x <= 1 {
             return false;
         }
